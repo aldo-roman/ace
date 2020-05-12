@@ -4,20 +4,37 @@
     "version": "1.4.10",
     "homepage": "http://github.com/ajaxorg/ace",
     "engines": {
-        "node": ">= 0.6.0"
+        "node": ">= 8.0.0"
     },
     "author": "Fabian Jakobs <fabian@c9.io>",
     "main": "lib/ace",
+    "module": "build-tsc/esm/ace.js",
     "typings": "ace.d.ts",
     "repository": {
         "type": "git",
         "url": "http://github.com/ajaxorg/ace.git"
     },
     "devDependencies": {
-        "asyncjs": "~0.0.12",
+        "@rollup/plugin-html": "^0.1.1",
         "amd-loader": "~0.0.4",
-        "dryice": "0.4.11",
-        "architect-build": "https://github.com/c9/architect-build/tarball/43a6fdeffe"
+        "architect-build": "https://github.com/c9/architect-build/tarball/43a6fdeffe",
+        "asyncjs": "~0.0.12",
+        "copyfiles": "^2.2.0",
+        "css-loader": "^3.5.3",
+        "esm": "^3.2.25",
+        "file-loader": "^6.0.0",
+        "find-imports": "^1.1.0",
+        "mini-css-extract-plugin": "^0.9.0",
+        "raw-loader": "^4.0.1",
+        "rollup": "^2.6.1",
+        "rollup-plugin-postcss": "^3.1.1",
+        "rollup-plugin-string": "^3.0.0",
+        "rollup-plugin-terser": "^5.3.0",
+        "style-loader": "^1.2.1",
+        "terser-webpack-plugin": "^3.0.0",
+        "typescript": "^3.8.3",
+        "webpack": "^4.43.0",
+        "webpack-cli": "^3.3.11"
     },
     "mappings": {
         "ace": "."
@@ -32,8 +49,11 @@
         "lib": "lib/ace"
     },
     "scripts": {
+        "copy-files": "copyfiles -u 2 'lib/ace/**/*.css' build-tsc/esm-es5-temp",
         "start": "node static.js",
-        "test": "node lib/ace/test/all.js",
+        "clean": "rm -rf build-tsc/*",
+        "build": "tsc && tsc -p tsconfig.esm.json && node ./build-rollup.js",
+        "test": "node lib/ace/test/index.js",
         "lint": "eslint 'lib/ace/**/*.js'",
         "fix": "eslint --fix 'lib/ace/**/*.js'"
     }
